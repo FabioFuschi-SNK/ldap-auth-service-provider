@@ -25,10 +25,5 @@
         "psr-4": {
             "snk\\Silex\\LdapAuth\\": "src/"
         }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "snk\\Silex\\LdapAuth\\Tests\\": "tests/"
-        }
     }
 }

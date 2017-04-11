@@ -1,13 +1,5 @@
 <?php
 
-/*
- * This file is part of the LdapAuthentication service provider.
- *
- * (c) Martin Rademacher <mano@snk.net>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace snk\Silex\LdapAuth\Security\Core\Authentication\Provider;
 
@@ -27,7 +19,6 @@ class LdapAuthenticationProvider implements AuthenticationProviderInterface
     protected $providerKey;
     protected $userProvider;
     protected $ldap;
-    protected $logger;
     protected $options;
 
     /**
@@ -44,8 +35,8 @@ class LdapAuthenticationProvider implements AuthenticationProviderInterface
         $this->providerKey = $providerKey;
         $this->userProvider = $userProvider;
         $this->ldap = $ldap;
-        $this->logger = $logger;
         $this->options = array_merge(array('roles' => array()), $options);
+
     }
 
     /**
@@ -69,16 +60,15 @@ class LdapAuthenticationProvider implements AuthenticationProviderInterface
      *
      * @return bool <code>true</code> if the credentials are valid.
      */
-    protected function ldapAuth($username, $credentials)
-    {
-         return true;
-        // try {
-        //     $this->ldap->bind($username, $credentials);
+    protected function ldapAuth($username, $credentials){
 
-        //     return true;
-        // } catch (Exception $e) {
-        //     return false;
-        // }
+        try {
+             $this->ldap->bind(sprintf($this->options['filter'], $username), $credentials);
+
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**
